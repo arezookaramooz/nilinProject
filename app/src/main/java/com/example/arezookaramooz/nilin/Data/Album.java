@@ -1,12 +1,15 @@
 package com.example.arezookaramooz.nilin.Data;
 
+import java.util.ArrayList;
+
 public class Album {
 
-    String name, photoLink;
+    String name;
+    ArrayList<String> photoLinks = new ArrayList<String>();
 
-    public Album(String name, String photo) {
+    public Album(String name, ArrayList<String> photoLinks) {
         this.name = name;
-        this.photoLink = photo;
+        this.photoLinks = photoLinks;
     }
 
     public String getName(){
@@ -17,12 +20,12 @@ public class Album {
         this.name = name;
     }
 
-    public String getPhotoLink() {
-        return photoLink;
+    public ArrayList<String> getPhotoLinks() {
+        return photoLinks;
     }
 
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
+    public void setPhotoLinks(ArrayList<String> photoLinks) {
+        this.photoLinks = photoLinks;
     }
 
 }

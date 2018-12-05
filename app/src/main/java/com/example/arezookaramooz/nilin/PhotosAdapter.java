@@ -38,7 +38,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
 
         final Album album = m.getAlbums().get(albumPosition);
 
-        Picasso.with(holder.itemView.getContext()).load(album.getPhotoLink()).into(((MyViewHolder) holder).photo);
+        Picasso.with(holder.itemView.getContext()).load(album.getPhotoLinks().get(position)).into(((MyViewHolder) holder).photo);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
 
-        return 1;
+        return m.getAlbums().get(albumPosition).getPhotoLinks().size();
 
     }
 
