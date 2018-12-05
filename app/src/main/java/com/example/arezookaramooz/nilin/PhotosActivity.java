@@ -26,6 +26,12 @@ public class PhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
 
+
+
+        Intent mIntent = getIntent();
+        albumPosition = mIntent.getIntExtra("position", 0);
+
+
         recyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -33,9 +39,6 @@ public class PhotosActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-
-        Intent mIntent = getIntent();
-        albumPosition = mIntent.getIntExtra("position", 0);
 
 
         Log.d("PhotosActivity", "position is:" + albumPosition);

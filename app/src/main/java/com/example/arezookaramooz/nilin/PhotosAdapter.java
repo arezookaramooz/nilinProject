@@ -53,7 +53,7 @@ public class PhotosAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
 
-        return m.getAlbums().size();
+        return 1;
 
     }
 
