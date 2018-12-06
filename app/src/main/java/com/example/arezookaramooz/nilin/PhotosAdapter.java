@@ -1,6 +1,7 @@
 package com.example.arezookaramooz.nilin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,10 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(final View v) {
 
-                //magnify image
+                Intent myIntent = new Intent(holder.itemView.getContext(), LargePhotoActivity.class);
+                myIntent.putExtra("albumPosition", albumPosition);
+                myIntent.putExtra("photoPosition", position);
+                ((MyViewHolder) holder).photo.getContext().startActivity(myIntent);
             }
         });
     }
