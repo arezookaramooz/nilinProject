@@ -31,16 +31,18 @@ public class AlbumAdapter extends RecyclerView.Adapter {
         final Album album = m.getAlbums().get(position);
 
 
-        ((MyViewHolder) holder).name.setText(album.getName());
+        ((MyViewHolder) holder).userId.setText("" + album.getId());
+        ((MyViewHolder) holder).id.setText("" + album.getId());
+        ((MyViewHolder) holder).title.setText(album.getTitle());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
-                Intent myIntent = new Intent(v.getContext(), PhotosActivity.class);
-                myIntent.putExtra("position", position);
-                v.getContext().startActivity(myIntent);
+//                Intent myIntent = new Intent(v.getContext(), PhotosActivity.class);
+//                myIntent.putExtra("position", position);
+//                v.getContext().startActivity(myIntent);
             }
         });
     }
@@ -52,11 +54,13 @@ public class AlbumAdapter extends RecyclerView.Adapter {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView title, userId, id;
 
         public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.album_name);
+            title = (TextView) view.findViewById(R.id.album_title);
+            userId = (TextView) view.findViewById(R.id.album_userId);
+            id = (TextView) view.findViewById(R.id.album_id);
 
         }
     }

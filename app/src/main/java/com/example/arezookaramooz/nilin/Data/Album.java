@@ -4,28 +4,37 @@ import java.util.ArrayList;
 
 public class Album {
 
-    String name;
-    ArrayList<String> photoLinks = new ArrayList<String>();
+    int userId;
+    int id;
+    String title;
 
-    public Album(String name, ArrayList<String> photoLinks) {
-        this.name = name;
-        this.photoLinks = photoLinks;
+    public Album(int userId, int id, String title) {
+        this.userId = userId;
+        this.id = id;
+        this.title = title;
     }
 
-    public String getName(){
-        return name;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public ArrayList<String> getPhotoLinks() {
-        return photoLinks;
+    public int getId() {
+        return id;
     }
 
-    public void setPhotoLinks(ArrayList<String> photoLinks) {
-        this.photoLinks = photoLinks;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
