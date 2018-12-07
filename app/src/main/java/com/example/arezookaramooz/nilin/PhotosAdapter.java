@@ -48,10 +48,9 @@ public class PhotosAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(final View v) {
 
-//                Intent myIntent = new Intent(holder.itemView.getContext(), LargePhotoActivity.class);
-//                myIntent.putExtra("albumPosition", albumPosition);
-//                myIntent.putExtra("photoPosition", position);
-//                ((MyViewHolder) holder).photo.getContext().startActivity(myIntent);
+                Intent myIntent = new Intent(holder.itemView.getContext(), LargePhotoActivity.class);
+                myIntent.putExtra("photoUrl", photos.get(position).getUrl());
+                ((MyViewHolder) holder).itemView.getContext().startActivity(myIntent);
             }
         });
     }
