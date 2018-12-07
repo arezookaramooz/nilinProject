@@ -31,7 +31,7 @@ public class AlbumAdapter extends RecyclerView.Adapter {
         final Album album = m.getAlbums().get(position);
 
 
-        ((MyViewHolder) holder).userId.setText("" + album.getId());
+        ((MyViewHolder) holder).userId.setText("" + album.getUserId());
         ((MyViewHolder) holder).id.setText("" + album.getId());
         ((MyViewHolder) holder).title.setText(album.getTitle());
 
@@ -40,9 +40,9 @@ public class AlbumAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(final View v) {
 
-//                Intent myIntent = new Intent(v.getContext(), PhotosActivity.class);
-//                myIntent.putExtra("position", position);
-//                v.getContext().startActivity(myIntent);
+                Intent myIntent = new Intent(v.getContext(), PhotosActivity.class);
+                myIntent.putExtra("albumId", m.getAlbums().get(position).getId());
+                v.getContext().startActivity(myIntent);
             }
         });
     }
