@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.example.arezookaramooz.nilin.Data.Album;
 import com.example.arezookaramooz.nilin.Data.AlbumManager;
+import com.example.arezookaramooz.nilin.Data.User;
+import com.example.arezookaramooz.nilin.Data.UserManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         new DownloadAlbumTask().execute("https://jsonplaceholder.typicode.com/albums");
+
+        new DownloadUserNameTask().execute("https://jsonplaceholder.typicode.com/users");
     }
 
 
@@ -89,5 +93,60 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private class DownloadUserNameTask extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            OkHttpClient client = new OkHttpClient();
+            Request request =
+                    new Request.Builder()
+                            .url(urls[0])
+                            .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    return response.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                Toast t = Toast.makeText(MainActivity.this, "error in connecting with server", Toast.LENGTH_SHORT);
+                t.show();
+            } else {
+
+                Type listType = new TypeToken<ArrayList<User>>() {
+                }.getType();
+
+                ArrayList<User> users;
+                users = new Gson().fromJson(s, listType);
+
+                UserManager m = UserManager.getInstance(MainActivity.this);
+
+                m.addUsers(users);
+
+//                adapter.users.addAll(users);
+
+//                for (int i = 0 ; i < photos.size() ; i++ {
+//
+//                    if (photos.get(i).getAlbumId() == albumId){
+//
+//                        adapter.photos.add(photos.get(i));
+//                    }
+//                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
 }
 

@@ -10,12 +10,20 @@ import android.widget.TextView;
 
 import com.example.arezookaramooz.nilin.Data.Album;
 import com.example.arezookaramooz.nilin.Data.AlbumManager;
+import com.example.arezookaramooz.nilin.Data.Photo;
+import com.example.arezookaramooz.nilin.Data.User;
+import com.example.arezookaramooz.nilin.Data.UserManager;
+
+import java.util.ArrayList;
 
 public class AlbumAdapter extends RecyclerView.Adapter {
     AlbumManager m ;
+    UserManager userManager;
+
 
     public AlbumAdapter(Context context) {
         m = AlbumManager.getInstance(context);
+        userManager = UserManager.getInstance(context);
     }
 
     @Override
@@ -32,7 +40,7 @@ public class AlbumAdapter extends RecyclerView.Adapter {
 
 
         ((MyViewHolder) holder).userId.setText("" + album.getUserId());
-        ((MyViewHolder) holder).id.setText("" + album.getId());
+        ((MyViewHolder) holder).id.setText("" + userManager.getNameWithId(album.getUserId()));
         ((MyViewHolder) holder).title.setText(album.getTitle());
 
 

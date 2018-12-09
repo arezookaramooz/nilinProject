@@ -53,12 +53,12 @@ public class PhotosActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
 
-//        album = m.getAlbums().get(position);
-//        Log.d("PhotosActivity", "link is: " + album.getPhotoLink());
-//        ImageView imageView = (ImageView) findViewById(R.id.image_view);
-//        Picasso.with(this).load(album.getPhotoLink()).into(imageView);
+//        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
+//        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/albums/" + albumId + "/photos");
+
+        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId="+albumId);
+
 
     }
 
@@ -106,13 +106,16 @@ public class PhotosActivity extends AppCompatActivity {
                 photos = new Gson().fromJson(s, listType);
                 Log.d("PhotosActivity", "albumId is:" + albumId);
 
-                for (int i = 0 ; i < photos.size() ; i++ ){
 
-                    if (photos.get(i).getAlbumId() == albumId){
+                adapter.photos.addAll(photos);
 
-                        adapter.photos.add(photos.get(i));
-                    }
-                }
+//                for (int i = 0 ; i < photos.size() ; i++ ){
+//
+//                    if (photos.get(i).getAlbumId() == albumId){
+//
+//                        adapter.photos.add(photos.get(i));
+//                    }
+//                }
                 adapter.notifyDataSetChanged();
             }
         }
