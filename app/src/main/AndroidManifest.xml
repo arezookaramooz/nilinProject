@@ -20,6 +20,7 @@
         <activity android:name=".PhotosActivity"></activity>
         <activity android:name=".LargePhotoActivity"></activity>
 
+
     </application>
 
 </manifest>
