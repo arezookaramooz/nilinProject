@@ -86,7 +86,7 @@ public class LargePhotoActivity extends AppCompatActivity {
                             .setAllowedOverRoaming(false)
                             .setTitle(filename)
                             .setMimeType("image/jpeg")
-                            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+//                            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                             .setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,
                                     File.separator + DIR_NAME + File.separator + filename);
 

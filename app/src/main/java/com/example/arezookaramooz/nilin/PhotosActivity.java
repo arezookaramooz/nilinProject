@@ -1,5 +1,8 @@
 package com.example.arezookaramooz.nilin;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,7 +44,6 @@ public class PhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photos);
 
 
-
         Intent mIntent = getIntent();
         albumId = mIntent.getIntExtra("albumId", 0);
 
@@ -57,7 +59,7 @@ public class PhotosActivity extends AppCompatActivity {
 //        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
 //        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/albums/" + albumId + "/photos");
 
-        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId="+albumId);
+        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
 
 
     }
@@ -71,6 +73,20 @@ public class PhotosActivity extends AppCompatActivity {
 
 
     private class DownloadPhotosTask extends AsyncTask<String, String, String> {
+
+        private ProgressDialog progressDialog;
+
+        public DownloadPhotosTask() {
+            progressDialog = new ProgressDialog(PhotosActivity.this);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setMessage("Downloading photos...");
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
         @Override
         protected String doInBackground(String... urls) {
             OkHttpClient client = new OkHttpClient();
@@ -94,28 +110,41 @@ public class PhotosActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressDialog.dismiss();
 
             if (s == null) {
-                Toast t = Toast.makeText(PhotosActivity.this, "error in connecting with server", Toast.LENGTH_SHORT);
-                t.show();
-            } else {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(PhotosActivity.this);
+                builder.setTitle("ERROR !!");
+                builder.setMessage("Sorry there was an error getting data from the Internet.");
+
+                builder.setCancelable(false)
+                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int n) {
+                                dialog.dismiss();
+                                new  DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            }  else {
                 Type listType = new TypeToken<ArrayList<Photo>>() {
                 }.getType();
                 ArrayList<Photo> photos;
                 photos = new Gson().fromJson(s, listType);
                 Log.d("PhotosActivity", "albumId is:" + albumId);
 
+                for (int i = 0 ; i < photos.size() ; i++ ){
 
-                adapter.photos.addAll(photos);
+                    if (photos.get(i).getAlbumId() == albumId){
 
-//                for (int i = 0 ; i < photos.size() ; i++ ){
-//
-//                    if (photos.get(i).getAlbumId() == albumId){
-//
-//                        adapter.photos.add(photos.get(i));
-//                    }
-//                }
+                        adapter.photos.add(photos.get(i));
+                    }
+                }
+//                adapter.photos.addAll(photos);
+
                 adapter.notifyDataSetChanged();
             }
         }

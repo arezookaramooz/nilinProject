@@ -1,5 +1,10 @@
 package com.example.arezookaramooz.nilin;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,6 +59,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DownloadAlbumTask extends AsyncTask<String, String, String> {
+
+        private ProgressDialog progressDialog;
+
+        public DownloadAlbumTask() {
+            progressDialog = new ProgressDialog(MainActivity.this);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setMessage("Downloading albums...");
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
         @Override
         protected String doInBackground(String... urls) {
             OkHttpClient client = new OkHttpClient();
@@ -75,13 +93,30 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressDialog.dismiss();
 
             if (s == null) {
-                Toast t = Toast.makeText(MainActivity.this, "error in connecting with server", Toast.LENGTH_SHORT);
-                t.show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("ERROR !!");
+                builder.setMessage("Sorry there was an error getting data from the Internet.");
+
+                builder.setCancelable(false)
+                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int n) {
+                                dialog.dismiss();
+                                new  DownloadAlbumTask().execute("https://jsonplaceholder.typicode.com/albums");
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
             } else {
                 ArrayList<Album> albums;
                 Type listType = new TypeToken<ArrayList<Album>>() {
@@ -120,8 +155,9 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             if (s == null) {
-                Toast t = Toast.makeText(MainActivity.this, "error in connecting with server", Toast.LENGTH_SHORT);
-                t.show();
+//                Toast t = Toast.makeText(MainActivity.this, "error in connecting with server", Toast.LENGTH_SHORT);
+//                t.show();
+
             } else {
 
                 Type listType = new TypeToken<ArrayList<User>>() {
