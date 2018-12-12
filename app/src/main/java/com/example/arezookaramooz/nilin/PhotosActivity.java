@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ public class PhotosActivity extends AppCompatActivity {
     DividerItemDecoration divider;
 
     private RecyclerView recyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     AlbumManager m = AlbumManager.getInstance(this);
     Album album;
 
@@ -84,6 +86,7 @@ public class PhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
 
+mSwipeRefreshLayout = findViewById(R.id.swipeToRefresh1);
 
         Intent mIntent = getIntent();
         albumId = mIntent.getIntExtra("albumId", 0);
@@ -97,6 +100,15 @@ public class PhotosActivity extends AppCompatActivity {
         adapter = new PhotosAdapter(this, albumId);
 
         recyclerView.setAdapter(adapter);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
 //        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");

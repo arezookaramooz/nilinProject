@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -33,18 +34,31 @@ public class MainActivity extends AppCompatActivity {
     AlbumAdapter adapter;
 
     private RecyclerView recyclerView;
+    SwipeRefreshLayout mySwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_albums);
 
-        recyclerView = (RecyclerView) findViewById(R.id.albums_recycler_view);
+        mySwipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+        recyclerView = findViewById(R.id.albums_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AlbumAdapter(this);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        mySwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new DownloadAlbumTask().execute("https://jsonplaceholder.typicode.com/albums");
+
+                new DownloadUserNameTask().execute("https://jsonplaceholder.typicode.com/users");
+
+                mySwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         new DownloadAlbumTask().execute("https://jsonplaceholder.typicode.com/albums");
 
