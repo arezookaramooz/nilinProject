@@ -10,7 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.arezookaramooz.nilin.Data.Album;
@@ -37,6 +41,40 @@ public class PhotosActivity extends AppCompatActivity {
     AlbumManager m = AlbumManager.getInstance(this);
     Album album;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mymenu, menu);
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+
+    boolean isList = true;
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+        if (id == R.id.mybutton) {
+            if (isList) {
+                item.setIcon(R.drawable.grid);
+                isList = false;
+                recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+
+            } else {
+                item.setIcon(R.drawable.list);
+                isList = true;
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+            }
+
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +84,13 @@ public class PhotosActivity extends AppCompatActivity {
 
         Intent mIntent = getIntent();
         albumId = mIntent.getIntExtra("albumId", 0);
-
-
         recyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PhotosAdapter(this, albumId);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        adapter = new PhotosAdapter(this, albumId);
+
         recyclerView.setAdapter(adapter);
 
 
@@ -123,22 +161,22 @@ public class PhotosActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int n) {
                                 dialog.dismiss();
-                                new  DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
+                                new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
                             }
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
 
-            }  else {
+            } else {
                 Type listType = new TypeToken<ArrayList<Photo>>() {
                 }.getType();
                 ArrayList<Photo> photos;
                 photos = new Gson().fromJson(s, listType);
                 Log.d("PhotosActivity", "albumId is:" + albumId);
 
-                for (int i = 0 ; i < photos.size() ; i++ ){
+                for (int i = 0; i < photos.size(); i++) {
 
-                    if (photos.get(i).getAlbumId() == albumId){
+                    if (photos.get(i).getAlbumId() == albumId) {
 
                         adapter.photos.add(photos.get(i));
                     }
