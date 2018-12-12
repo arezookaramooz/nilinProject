@@ -36,6 +36,7 @@ public class PhotosActivity extends AppCompatActivity {
 
     PhotosAdapter adapter;
     int albumId;
+    DividerItemDecoration divider;
 
     private RecyclerView recyclerView;
     AlbumManager m = AlbumManager.getInstance(this);
@@ -61,13 +62,15 @@ public class PhotosActivity extends AppCompatActivity {
             if (isList) {
                 item.setIcon(R.drawable.grid);
                 isList = false;
+                recyclerView.removeItemDecoration(divider);
                 recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+
 
             } else {
                 item.setIcon(R.drawable.list);
                 isList = true;
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+                recyclerView.addItemDecoration(divider);
             }
 
 
@@ -86,8 +89,10 @@ public class PhotosActivity extends AppCompatActivity {
         albumId = mIntent.getIntExtra("albumId", 0);
         recyclerView = (RecyclerView) findViewById(R.id.photos_recycler_view);
 
+        divider = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(divider);
 
         adapter = new PhotosAdapter(this, albumId);
 

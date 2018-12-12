@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 public class LargePhotoActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE= 1;
+    public static final int REQUEST_CODE=2;
 
     AlbumManager m = AlbumManager.getInstance(this);
     public static final String DIR_NAME = "nilin";
@@ -59,12 +59,17 @@ public class LargePhotoActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-//
+
+                Log.d("LargePhotoActivity", "onClick: entered onClick");
+
+                ActivityCompat.requestPermissions(LargePhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+
                 if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Permission error", "You have permission");
+
+                    Log.d("LargePhotoActivity", "onClick: have permission");
 
 
-                    ActivityCompat.requestPermissions(LargePhotoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+
 
                     String filename = "filename.jpg";
                     String downloadUrlOfImage = photoUrl;
