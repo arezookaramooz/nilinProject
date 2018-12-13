@@ -7,13 +7,9 @@ import java.util.ArrayList;
 public class UserManager {
 
     private static UserManager instance;
-
     private ArrayList<User> users = new ArrayList<User>();
 
-
     private UserManager(Context context) {
-        //add albums
-
     }
 
     public static UserManager getInstance(Context context) {
@@ -22,14 +18,8 @@ public class UserManager {
         return instance;
     }
 
-
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
     public void addUsers(ArrayList<User> arrayList) {
         users.addAll(arrayList);
-
     }
 
     public String getNameWithId(int id) {
@@ -43,5 +33,4 @@ public class UserManager {
         }
         return name;
     }
-
 }

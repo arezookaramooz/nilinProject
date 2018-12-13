@@ -1,10 +1,11 @@
 package com.example.arezookaramooz.nilin.Data;
 
 public class Photo {
+
     int albumId, id;
     String title, url, thumbnailUrl;
 
-    public Photo(int albumId, int id, String title, String url, String thumbnailUrl){
+    public Photo(int albumId, int id, String title, String url, String thumbnailUrl) {
 
         this.albumId = albumId;
         this.id = id;
@@ -15,10 +16,6 @@ public class Photo {
 
     public int getAlbumId() {
         return albumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
     }
 
     public int getId() {
@@ -41,15 +38,7 @@ public class Photo {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getThumbnailUrl() {
         return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
     }
 }

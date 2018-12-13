@@ -7,7 +7,7 @@ public class User {
     Address address;
     Company company;
 
-    public User(int id, String name, String username, String email, String phone, String website, Address address, Company company){
+    public User(int id, String name, String username, String email, String phone, String website, Address address, Company company) {
 
         this.id = id;
         this.name = name;
@@ -17,7 +17,6 @@ public class User {
         this.website = website;
         this.address = address;
         this.company = company;
-
     }
 
     public String getName() {

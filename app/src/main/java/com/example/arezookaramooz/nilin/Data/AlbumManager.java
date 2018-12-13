@@ -7,13 +7,9 @@ import java.util.ArrayList;
 public class AlbumManager {
 
     private static AlbumManager instance;
-
     private ArrayList<Album> albums = new ArrayList<Album>();
 
-
     private AlbumManager(Context context) {
-        //add albums
-
     }
 
     public static AlbumManager getInstance(Context context) {
@@ -22,17 +18,11 @@ public class AlbumManager {
         return instance;
     }
 
-    public void addAlbum(Album album) {
-        albums.add(album);
-    }
-
-
     public ArrayList<Album> getAlbums() {
         return albums;
     }
 
-    public void addAlbums(ArrayList<Album> arrayList ){
+    public void addAlbums(ArrayList<Album> arrayList) {
         albums.addAll(arrayList);
-
     }
 }

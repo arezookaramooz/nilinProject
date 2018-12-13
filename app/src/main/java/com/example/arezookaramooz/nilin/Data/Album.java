@@ -18,10 +18,6 @@ public class Album {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getId() {
         return id;
     }
@@ -30,7 +26,7 @@ public class Album {
         this.id = id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
