@@ -73,11 +73,15 @@ public class PhotosActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
 
-                new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
+//                new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
+                PhotosNetworkClient photosNetworkClient = new PhotosNetworkClient(PhotosActivity.this, adapter, albumId);
+                photosNetworkClient.start();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
+//        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos?albumId=" + albumId);
+        PhotosNetworkClient photosNetworkClient = new PhotosNetworkClient(PhotosActivity.this, adapter, albumId);
+        photosNetworkClient.start();
     }
 
     @Override
@@ -86,35 +90,35 @@ public class PhotosActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private class DownloadPhotosTask extends AsyncTask<String, String, String> {
-
-        public DownloadPhotosTask() {
-            progressDialog = new ProgressDialog(PhotosActivity.this);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            showProgressDialog();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-            return download(urls);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            progressDialog.dismiss();
-
-            if (s == null) {
-                showAlertDialog(s);
-            } else {
-                parsPhotos(s);
-            }
-        }
-    }
+//    private class DownloadPhotosTask extends AsyncTask<String, String, String> {
+//
+//        public DownloadPhotosTask() {
+//            progressDialog = new ProgressDialog(PhotosActivity.this);
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            showProgressDialog();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... urls) {
+//
+//            return download(urls);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//            progressDialog.dismiss();
+//
+//            if (s == null) {
+//                showAlertDialog(s);
+//            } else {
+//                parsPhotos(s);
+//            }
+//        }
+//    }
 
     private boolean changeView(MenuItem item) {
         int id = item.getItemId();
@@ -135,61 +139,61 @@ public class PhotosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showProgressDialog() {
-        progressDialog.setMessage("Downloading photos...");
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
-    }
+//    private void showProgressDialog() {
+//        progressDialog.setMessage("Downloading photos...");
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.show();
+//    }
 
-    private String download(String... urls) {
-        OkHttpClient client = new OkHttpClient();
-        Request request =
-                new Request.Builder()
-                        .url(urls[0])
-                        .build();
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                return response.body().string();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    private String download(String... urls) {
+//        OkHttpClient client = new OkHttpClient();
+//        Request request =
+//                new Request.Builder()
+//                        .url(urls[0])
+//                        .build();
+//        Response response = null;
+//        try {
+//            response = client.newCall(request).execute();
+//            if (response.isSuccessful()) {
+//                return response.body().string();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
-    private void showAlertDialog(String s) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(PhotosActivity.this);
-        builder.setTitle("ERROR !!");
-        builder.setMessage("Sorry there was an error getting data from the Internet.");
+//    private void showAlertDialog(String s) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(PhotosActivity.this);
+//        builder.setTitle("ERROR !!");
+//        builder.setMessage("Sorry there was an error getting data from the Internet.");
+//
+//        builder.setCancelable(false)
+//                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int n) {
+//                        dialog.dismiss();
+//                        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
-        builder.setCancelable(false)
-                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int n) {
-                        dialog.dismiss();
-                        new DownloadPhotosTask().execute("https://jsonplaceholder.typicode.com/photos");
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private void parsPhotos(String s) {
-        Type listType = new TypeToken<ArrayList<Photo>>() {
-        }.getType();
-        ArrayList<Photo> photos;
-        photos = new Gson().fromJson(s, listType);
-        Log.d("PhotosActivity", "albumId is:" + albumId);
-
-        for (int i = 0; i < photos.size(); i++) {
-
-            if (photos.get(i).getAlbumId() == albumId) {
-                adapter.photos.add(photos.get(i));
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
+//    private void parsPhotos(String s) {
+//        Type listType = new TypeToken<ArrayList<Photo>>() {
+//        }.getType();
+//        ArrayList<Photo> photos;
+//        photos = new Gson().fromJson(s, listType);
+//        Log.d("PhotosActivity", "albumId is:" + albumId);
+//
+//        for (int i = 0; i < photos.size(); i++) {
+//
+//            if (photos.get(i).getAlbumId() == albumId) {
+//                adapter.photos.add(photos.get(i));
+//            }
+//        }
+//        adapter.notifyDataSetChanged();
+//    }
 
 }

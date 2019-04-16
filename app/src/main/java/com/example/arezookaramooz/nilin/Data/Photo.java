@@ -1,9 +1,25 @@
 package com.example.arezookaramooz.nilin.Data;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Photo {
 
-    int albumId, id;
-    String title, url, thumbnailUrl;
+    @SerializedName("albumId")
+    @Expose
+    int albumId;
+    @SerializedName("id")
+    @Expose
+    int id;
+    @SerializedName("title")
+    @Expose
+    String title;
+    @SerializedName("url")
+    @Expose
+    String url;
+    @SerializedName("thumbnailUrl")
+    @Expose
+    String thumbnailUrl;
 
     public Photo(int albumId, int id, String title, String url, String thumbnailUrl) {
 
@@ -40,5 +56,17 @@ public class Photo {
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
+    }
+
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }
